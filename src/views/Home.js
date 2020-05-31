@@ -5,7 +5,7 @@ import idx from 'idx';
 import { Table,Tag,Input, Button, Space} from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 import Highlighter from 'react-highlight-words';
-const { Column, ColumnGroup } = Table;
+const { Column } = Table;
 
 class Home extends Component {
 
@@ -81,7 +81,15 @@ class Home extends Component {
     handleReset = clearFilters => {
 		clearFilters();
 		this.setState({ searchText: '' });
-    };
+	};
+	
+	getTableValue = (value) =>{
+		return {
+				title: 'Type',
+				dataIndex: 'type',
+				key: 'type',
+		}
+	}
 
     render() {      
         const nameFilter = this.getColumnSearchProps('name');
@@ -94,7 +102,11 @@ class Home extends Component {
 
         return (
             <div className="mt-120 plr-35">
-        		<Table dataSource={idx(this.props,_=>_.tableData)}>
+				<Table 
+					dataSource={idx(this.props,_=>_.tableData)}
+					showHeader={true}
+					bordered
+				>
 					<Column 
 						title="Id" 
 						dataIndex="id" 
@@ -118,6 +130,35 @@ class Home extends Component {
 						onFilterDropdownVisibleChange={nameFilter.onFilterDropdownVisibleChange}
 						render={nameFilter.render}
 					/>
+					{/* <Column 
+						title="cargo" 
+						dataIndex="cargo" 
+						key="cargo" 
+						// sorter={ (a, b) => a.name.charCodeAt(0) - b.name.charCodeAt(0)}
+						render={status => (
+							<>
+								<Table 
+									pagination={false}
+									size="small" 
+									dataSource={status} 
+									columns={[{
+											title: 'Type',
+											dataIndex: 'type',
+											key: 'type',
+										},{
+											title: 'Description',
+											dataIndex: 'description',
+											key: 'description',
+										},
+										{
+											title: 'Volume',
+											dataIndex: 'volume',
+											key: 'volume',
+										}
+									]} />
+							</>
+						)}
+					/> */}
 					<Column 
 						title="Mode" 
 						dataIndex="mode" 
@@ -169,7 +210,7 @@ class Home extends Component {
 						key="status" 
 						render={status => (
 							<>
-								<Tag color={status == 'COMPLETED' ?  'green' : status == 'NEW' ? 'warning': 'default'} key={status}>
+								<Tag color={status === 'COMPLETED' ?  'green' : status === 'NEW' ? 'warning': 'default'} key={status}>
 								{status}
 								</Tag>
 							</>
