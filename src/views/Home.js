@@ -83,13 +83,6 @@ class Home extends Component {
 		this.setState({ searchText: '' });
 	};
 	
-	getTableValue = (value) =>{
-		return {
-				title: 'Type',
-				dataIndex: 'type',
-				key: 'type',
-		}
-	}
 
     render() {      
         const nameFilter = this.getColumnSearchProps('name');
